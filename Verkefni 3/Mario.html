@@ -3,43 +3,81 @@
 
 
 <script id="vertex-shader" type="x-shader/x-vertex">
-
+precision mediump float;
 attribute vec4 vPosition;
+attribute vec4 vColor;
+uniform float time;
 uniform float delta_jump_time;
+uniform float player_vertical_transfer, player_horizontal_transfer;
+//uniform vec3 coin_transform;  // x, y, time_created
+uniform float coin_x_pos, coin_y_pos;
+uniform bool isCoin;
+uniform bool isScore;
+uniform bool isPlayer;
+uniform bool isGoomba;
+uniform float goomba_horizontal_transfer;
+uniform float point_bar_shift;
+varying vec4 fColor;
 
 void
 main()
 {
-    // Stækkum punktana svo þeir sjáist!
-    gl_PointSize = 5.0;
+    fColor = vColor;
     gl_Position = vPosition;
-    float jumpStrength = 2.4;
-    gl_Position[1] += delta_jump_time*jumpStrength - delta_jump_time*delta_jump_time*jumpStrength;
+    
+    if (isCoin){
+        // gl_Position[1] += coin_transform[1] + sin(time*1.5)*.1; //sin((time-coin_transform[2])*1.)*.2;
+        // gl_Position[0] += coin_transform[0];
+        gl_Position[0] += coin_x_pos;
+        gl_Position[1] += coin_y_pos;
+    } else if (isScore){
+        gl_Position[0] += point_bar_shift;
+    } else if (isPlayer) {
+        //float jumpStrength = 2.4;
+        gl_Position[0] += player_horizontal_transfer;
+        gl_Position[1] += player_vertical_transfer; //delta_jump_time*jumpStrength - delta_jump_time*delta_jump_time*jumpStrength;
+    } else if (isGoomba){
+        gl_Position[0] += goomba_horizontal_transfer;
+    }
 }
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
 
 precision mediump float;
+//varying vec4 gl_FragCoord;
+//mediump vec4 gl_Position;
+
 uniform vec4 rcolor;
+uniform float time;
+uniform bool isBackground;
 varying vec4 fColor;
+
 
 void
 main()
 {
     // Teiknar gula punkta
     // gl_FragColor = vec4( 1.0, 1.0, 0.0, 1.0 );
-    gl_FragColor = rcolor;
+    if (isBackground){
+        gl_FragColor = fColor; // rcolor;
+    } else {
+        gl_FragColor = rcolor;
+    }
+    //gl_FragColor[2] = .5 + sin(time)*.5;
 }
 </script>
 
 <script type="text/javascript" src="../Common/webgl-utils.js"></script>
 <script type="text/javascript" src="../Common/initShaders.js"></script>
 <script type="text/javascript" src="../Common/MV.js"></script>
-<script type="text/javascript" src="spadi-orvar.js"></script>
+<script type="text/javascript" src="Mario.js"></script>
 
 <body>
 <canvas id="gl-canvas" width="512" height="512">
 </canvas>
+<div id="score_text">
+    Score: <div id="score_div_score">0</div>
+</div>
 </body>
 </html>
