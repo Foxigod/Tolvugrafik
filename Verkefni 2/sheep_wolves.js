@@ -142,7 +142,7 @@ window.onload = function init()
     colorLines(vbuff, cbuff, vec4(1.0, 1.0, 1.0, 1.0));  // Sheep Outlines, num_line_vertices
     colorLines(vbuff, cbuff, vec4(0.0, 0.0, 0.0, 1.0));  // Wolf Outlines, num_line_vertices
     colorCube(vbuff, cbuff, vec4(0.8, 0.8, 0.8, 1.0));  // Sheep, num_cube_vertices
-    colorCube(vbuff, cbuff, vec4(0.4, 0.4, 0.4, 0.4));  // Wolf, num_cube_vertices
+    colorCube(vbuff, cbuff, vec4(0.4, 0.4, 0.4, 1.0));  // Wolf, num_cube_vertices
 
 
     cBuffer = gl.createBuffer();
