@@ -1,0 +1,81 @@
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main() 
+{
+    fColor = vColor;
+    gl_Position = projection * modelview * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+   
+varying vec4 fColor;
+uniform vec4 wireColor;
+
+void
+main()
+{
+    gl_FragColor = fColor; //wireColor;
+}
+</script>
+
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="sheep_wolves.js"></script>
+
+<div>
+Grid density 10 <input id="grid_density" type="range" min="10" max="40" step="1" value="10" /> 40
+</div>
+<div>
+Starting sheep <input id="starting_sheep" type="number" min="0" step="1" value="10" style="width: 1.5cm" />
+<input id="spawn_sheep" type="button" value="Spawn Sheep"/>
+</div>
+<div>
+Starting wolves <input id="starting_wolves" type="number" min="0" step="1" value="10" style="width: 1.5cm" />
+<input id="spawn_wolf" type="button" value="Spawn Wolf"/>
+</div>
+<div>
+Timesteps for sheep to grow up <input id="sheep_grow_up_time" type="number" min="0" step="1" value="5" style="width: 1.5cm" />
+</div>
+<div>
+Rough estimate for birthrate of sheep from adult sheep, one every x timesteps 1 <input id="sheep_birth_time" type="range" min="1" max="30" step="1" value="5" /> 30
+</div>
+<div>
+Rough estimate for birthrate of wolves, one every x sheep eaten 1 <input id="wolf_birth_food" type="range" min="1" max="30" step="1" value="3" /> 30
+</div>
+<div>
+Wolf lifetime without food until starvation 1 <input id="wolf_lifetime_without_food" type="range" min="1" max="50" step="1" value="15" /> 50
+</div>
+<div>
+Wolf smell distance 1 <input id="wolf_smell_dist" type="range" min="1" max="20" step="1" value="3" /> 20
+</div>
+<div>
+Frames per timestep 1 <input id="frames_for_timestep" type="range" min="1" max="400" step="1" value="100" /> 400
+</div>
+<div>
+Frames between timesteps (pause) 1 <input id="frames_between_gridsteps" type="range" min="1" max="400" step="1" value="30" /> 400
+</div>
+<div>
+<input id="reset" type="button" value="Restart simulation with new parameters"/>
+</div>
+
+<body>
+<canvas id="gl-canvas" width="500" height="500">
+<br/>
+
+
+</body>
+</html>
