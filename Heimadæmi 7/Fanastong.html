@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+    canvas { background: blue; }
+</style>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+// Vertex shader for a single colored object
+
+attribute  vec4 vPosition;
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main()
+{
+      gl_Position = projection * modelview * vPosition;
+
+  }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+// Fragment shader for a single colored object
+
+precision mediump float;
+uniform vec4 Color;
+
+void
+main()
+{
+    gl_FragColor = Color;
+
+}
+</script>
+
+
+<script id="vertex-shader2" type="x-shader/x-vertex">
+// Vertex shader for textured object
+
+attribute  vec4 vPosition;
+attribute  vec2 vTexCoord;
+uniform float displacement;
+uniform float time;
+
+varying vec2 fTexCoord;
+
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main()
+{
+    fTexCoord = vTexCoord;
+    vec4 temp = vPosition;
+    temp.y += displacement;
+    temp.z += sin(time-(temp.x+1.25)/2.5)*0.4*(temp.x+1.25);
+    gl_Position = projection * modelview * temp;
+}
+</script>
+
+<script id="fragment-shader2" type="x-shader/x-fragment">
+// Vertex shader for textured object
+
+precision mediump float;
+
+varying vec2 fTexCoord;
+uniform sampler2D texture;
+
+void main()
+{
+    gl_FragColor = texture2D( texture, fTexCoord );
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="Fanastong.js"></script>
+
+
+<body>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<img id = "texImage" src = "2560px-Flag_of_Germany_(state).svg.png" hidden></img>
+</body>
+</html>

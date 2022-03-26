@@ -1,0 +1,55 @@
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec2 vTexCoord;
+attribute  vec4 vColor;
+
+varying vec4 fColor;
+varying vec2 fTexCoord;
+
+uniform bool drawTexture;
+uniform mat4 rotation;
+
+void main() 
+{
+    fTexCoord = vTexCoord;
+    fColor = vColor;
+    gl_Position = rotation * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+   
+varying vec2 fTexCoord;
+varying vec4 fColor;
+
+uniform bool drawTexture;
+uniform sampler2D texture;
+
+void
+main()
+{
+    if (drawTexture){
+        gl_FragColor = texture2D( texture, fTexCoord );
+    } else {
+        gl_FragColor = fColor;
+    }
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="Tolvuskjar.js"></script>
+
+<body>
+<canvas id="gl-canvas" width="512" height="512">
+<img id = "texImage" src = "xp_pinball.png" hidden></img>
+<br/>
+
+</body>
+</html>
